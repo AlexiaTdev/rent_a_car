@@ -51,8 +51,36 @@ describe('GET /cars', function () {
 });
 
 describe('GET /cars/filtre', function () {
-  it('should return a list of filters cars by model', async () => {
-    const { body } = await request.get('http://localhost:3333/cars/filtre?');
-    const expectedCars = [CARS_DATA['AA-768-RT']].map((car) =>
-  })
+  it('should return a list of filtered cars list by model with an existing model', async () => {
+    //const { body } = await request.get('http://localhost:3333/cars/filtre?');
+    //const expectedCars = [].map((car) => {});
+    //const expectedBody = {};
+    //expect(body).to.be.deep.equal(expectedBody);
+  });
+  it('should NOT return a list of filtered cars list by model with a non existing model', async () => {
+    //const { body } = await request.get('http://localhost:3333/cars/filtre?');
+    //const expectedCars = [].map((car) => {});
+    //const expectedBody = {};
+    //expect(body).to.be.deep.equal(expectedBody);
+  });
+
+  it('should return a list of filtered cars list by brand with an existing brand', async () => {
+    //const { body } = await request.get('http://localhost:3333/cars/filtre?');
+    //const expectedCars = [].map((car) => {});
+    //const expectedBody = {};
+    //expect(body).to.be.deep.equal(expectedBody);
+  });
+  it('should return a list of filtered cars list by brand with a non existing brand', async () => {
+    //const { body } = await request.get('http://localhost:3333/cars/filtre?');
+    //const expectedCars = [].map((car) => {});
+    //const expectedBody = {};
+    //expect(body).to.be.deep.equal(expectedBody);
+  });
+
+  it('should NOT return a list of filtered cars with a wrong filter', async () => {
+    //const { body } = await request.get('http://localhost:3333/cars/filtre?');
+    //const expectedCars = [].map((car) => {});
+    //const expectedBody = {};
+    //expect(body).to.be.deep.equal(expectedBody);
+  });
 })
