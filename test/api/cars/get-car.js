@@ -19,7 +19,8 @@ describe('GET /car/:id', function () {
   beforeEach(async () => {
     await collections.cars.insertMany([
       CARS_DATA['AA-768-RT'],
-      CARS_DATA['DR-985-PO']
+      CARS_DATA['DR-985-PO'],
+      CARS_DATA['AT-029-PO']
     ]);
   });
 
@@ -53,5 +54,5 @@ describe('GET /car/:id', function () {
   });
 });
 
-//alexia a recherché comment tester le delete et l'update : https://medium.com/@Jscrambler/testing-apis-with-mocha-1d75bd4bcc0f
+//alexiaLeRaisinSec a recherché comment tester le delete et l'update : https://medium.com/@Jscrambler/testing-apis-with-mocha-1d75bd4bcc0f
 

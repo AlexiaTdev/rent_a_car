@@ -19,7 +19,8 @@ describe('GET /cars', function () {
   beforeEach(async () => {
     await collections.cars.insertMany([
       CARS_DATA['AA-768-RT'],
-      CARS_DATA['DR-985-PO']
+      CARS_DATA['DR-985-PO'],
+      CARS_DATA['AT-029-PO']
     ]);
   });
 
@@ -50,11 +51,10 @@ describe('GET /cars', function () {
   });
 });
 
-//alexia a codé ici
+
 describe('GET /cars/filter', function () {
   /**
    * TESTS filter by model
-   * grrr pas beau et certainement pas juste
    */
   it('should return a list of filtered cars list by model', async () => {
     const { body } = await request.get('http://localhost:3333/cars/filter?model=Ateca');
@@ -70,24 +70,17 @@ describe('GET /cars/filter', function () {
     expect(body).to.be.deep.equal(expectedCar);
   });
 
-  it('should NOT return a list of filtered cars list by model with a non existing model', async () => {
-    try {
-      await request.get('http://localhost:3333/cars/filter?UNKNOWN=Ateca');
-      fail('must return a 404 not found error');
-    } catch (error) {
-      const { status, response } = error;
-      expect(status).to.be.equal(404);
-      expect(response.body).to.be.deep.equal({ message: 'unknown filter' });
-    }
+  it('should NOT return a list of filtered cars list by model with a non existing model or without filter parameter', async () => {
+    const { body } = await request.get('http://localhost:3333/cars/filter?model=UNKNOWN');
+    expect(body).to.be.deep.equal([]);
   });
 
   /**
    * TESTS filter by brand
-   * grrr pas fini
    */
   it('should return a list of filtered cars list by brand', async () => {
-    const { body } = await request.get('http://localhost:3333/cars/filtre');
-    const expectedCars = [CARS_DATA['AA-768-RT']].map((car) => {
+    const { body } = await request.get('http://localhost:3333/cars/filter?brand=Porsche');
+    const expectedCars = [CARS_DATA['DR-985-PO'], CARS_DATA['AT-029-PO']].map((car) => {
       return {
         _links: {
           self: { href: `http://localhost:3333/cars/filter?model=${car.brand}` }
@@ -97,34 +90,30 @@ describe('GET /cars/filter', function () {
         model: car.model
       };
     });
-    //const expectedBody = {};
-    //expect(body).to.be.deep.equal(expectedBody);
+    expect(body).to.be.deep.equal(expectedCars);
   });
-  it('should return a list of filtered cars list by brand with a non existing brand', async () => {
-    //const { body } = await request.get('http://localhost:3333/cars/filtre?');
-    //const expectedCars = [].map((car) => {});
-    //const expectedBody = {};
-    //expect(body).to.be.deep.equal(expectedBody);
+
+  it('should NOT return a list of filtered cars list by brand with a non existing brand or without filter parameter', async () => {
+    const { body } = await request.get('http://localhost:3333/cars/filter?brand=UNKNOWN');
+    expect(body).to.be.deep.equal([]);
   });
 
   /**
    * TEST a combined filter of brand and model
    */
    it('should return a list of filtered cars list by brand and model', async () => {
-    //const { body } = await request.get('http://localhost:3333/cars/filtre?');
-    //const expectedCars = [].map((car) => {});
-    //const expectedBody = {};
-    //expect(body).to.be.deep.equal(expectedBody);
-  });
-
-  /**
-   * TESTS filter by with the wrong filter 
-   */
-  it('should NOT return a list of filtered cars with a wrong filter', async () => {
-    //const { body } = await request.get('http://localhost:3333/cars/filtre?');
-    //const expectedCars = [].map((car) => {});
-    //const expectedBody = {};
-    //expect(body).to.be.deep.equal(expectedBody);
+    const { body } = await request.get('http://localhost:3333/cars/filtre?brand=Porsche&model=Cayman');
+    const expectedCar = [CARS_DATA['AT-029-PO']].map((car) => {
+      return {
+      _links: {
+        self: { href: `http://localhost:3333/cars/filter?model=${car.brand}` }
+      },
+      id: car._id,
+      brand: car.brand,
+      model: car.model
+      };
+    });
+    expect(body).to.be.deep.equal(expectedCar);
   });
 
   /**
